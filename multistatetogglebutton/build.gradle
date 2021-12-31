@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.library'
-    id 'com.jfrog.bintray'
     id 'maven-publish'
 }
 
@@ -37,23 +36,6 @@ Properties properties = new Properties()
 File file = project.rootProject.file('local.properties')
 if (file.isFile()) {
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
-}
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    configurations = ['archives']
-    pkg {
-        repo = "maven"
-        name = "MultiStateToggleButton"
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        issueTrackerUrl = siteUrl + '/issues'
-        licenses = ["MIT"]
-        publish = true
-        publicDownloadNumbers = true
-    }
 }
 
 dependencies {

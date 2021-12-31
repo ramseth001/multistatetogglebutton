@@ -131,7 +131,7 @@ public abstract class ToggleButton extends LinearLayout {
     /**
      * Color values are in the form 0xAARRGGBB
      *
-     * @param colorNotPressedText  resolved color for the pressed button's text
+     * @param colorPressedText  resolved color for the pressed button's text
      * @param colorNotPressedText  resolved color for the released button's text
      */
     public void setForegroundColors(int colorPressedText, int colorNotPressedText) {
