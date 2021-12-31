@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,11 +15,14 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+
 public class MultiStateToggleButton extends ToggleButton {
 
     private static final String TAG = MultiStateToggleButton.class.getSimpleName();
 
-    private static final String KEY_BUTTON_STATES  = "button_states";
+    private static final String KEY_BUTTON_STATES = "button_states";
     private static final String KEY_INSTANCE_STATE = "instance_state";
 
     /**
@@ -32,7 +33,7 @@ public class MultiStateToggleButton extends ToggleButton {
     /**
      * The specified texts
      */
-    CharSequence[]   texts;
+    CharSequence[] texts;
 
     /**
      * If true, multiple buttons can be pressed at the same time
@@ -53,14 +54,14 @@ public class MultiStateToggleButton extends ToggleButton {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MultiStateToggleButton, 0, 0);
         try {
             CharSequence[] texts = a.getTextArray(R.styleable.MultiStateToggleButton_values);
-            colorPressed = a.getColor(R.styleable.MultiStateToggleButton_mstbPrimaryColor, 0);
-            colorNotPressed = a.getColor(R.styleable.MultiStateToggleButton_mstbSecondaryColor, 0);
-            colorPressedText = a.getColor(R.styleable.MultiStateToggleButton_mstbColorPressedText, 0);
-            colorPressedBackground = a.getColor(R.styleable.MultiStateToggleButton_mstbColorPressedBackground, 0);
-            pressedBackgroundResource = a.getResourceId(R.styleable.MultiStateToggleButton_mstbColorPressedBackgroundResource, 0);
-            colorNotPressedText = a.getColor(R.styleable.MultiStateToggleButton_mstbColorNotPressedText, 0);
-            colorNotPressedBackground = a.getColor(R.styleable.MultiStateToggleButton_mstbColorNotPressedBackground, 0);
-            notPressedBackgroundResource = a.getResourceId(R.styleable.MultiStateToggleButton_mstbColorNotPressedBackgroundResource, 0);
+            super.setColorPressed(a.getColor(R.styleable.MultiStateToggleButton_mstbPrimaryColor, 0));
+            super.setColorNotPressed(a.getColor(R.styleable.MultiStateToggleButton_mstbSecondaryColor, 0));
+            super.setColorPressedText(a.getColor(R.styleable.MultiStateToggleButton_mstbColorPressedText, 0));
+            super.setColorPressedBackground(a.getColor(R.styleable.MultiStateToggleButton_mstbColorPressedBackground, 0));
+            super.setPressedBackgroundResource(a.getResourceId(R.styleable.MultiStateToggleButton_mstbColorPressedBackgroundResource, 0));
+            super.setColorNotPressedText(a.getColor(R.styleable.MultiStateToggleButton_mstbColorNotPressedText, 0));
+            super.setColorNotPressedBackground(a.getColor(R.styleable.MultiStateToggleButton_mstbColorNotPressedBackground, 0));
+            super.setNotPressedBackgroundResource(a.getResourceId(R.styleable.MultiStateToggleButton_mstbColorNotPressedBackgroundResource, 0));
 
             int length = 0;
             if (texts != null) {
@@ -139,7 +140,7 @@ public class MultiStateToggleButton extends ToggleButton {
         setOrientation(LinearLayout.HORIZONTAL);
         setGravity(Gravity.CENTER_VERTICAL);
 
-        LayoutInflater inflater = (LayoutInflater) context
+        LayoutInflater inflater = (LayoutInflater) super.getCurrentContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (mainLayout == null) {
             mainLayout = (LinearLayout) inflater.inflate(R.layout.view_multi_state_toggle_button, this, true);
@@ -213,7 +214,7 @@ public class MultiStateToggleButton extends ToggleButton {
         setOrientation(LinearLayout.HORIZONTAL);
         setGravity(Gravity.CENTER_VERTICAL);
 
-        LayoutInflater inflater = (LayoutInflater) context
+        LayoutInflater inflater = (LayoutInflater) getCurrentContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (mainLayout == null) {
             mainLayout = (LinearLayout) inflater.inflate(R.layout.view_multi_state_toggle_button, this, true);
@@ -298,22 +299,22 @@ public class MultiStateToggleButton extends ToggleButton {
         }
         button.setSelected(selected);
         button.setBackgroundResource(selected ? R.drawable.button_pressed : R.drawable.button_not_pressed);
-        if (colorPressed != 0 || colorNotPressed != 0) {
-            button.setBackgroundColor(selected ? colorPressed : colorNotPressed);
-        } else if (colorPressedBackground != 0 || colorNotPressedBackground != 0) {
-          button.setBackgroundColor(selected ? colorPressedBackground : colorNotPressedBackground);
+        if (getColorPressed() != 0 || getColorNotPressed() != 0) {
+            button.setBackgroundColor(selected ? getColorPressed() : getColorNotPressed());
+        } else if (getColorPressedBackground() != 0 || getColorNotPressedBackground() != 0) {
+            button.setBackgroundColor(selected ? getColorPressedBackground() : getColorNotPressedBackground());
         }
         if (button instanceof Button) {
             int style = selected ? R.style.WhiteBoldText : R.style.PrimaryNormalText;
             ((AppCompatButton) button).setTextAppearance(this.getContext(), style);
-            if (colorPressed != 0 || colorNotPressed != 0) {
-                ((AppCompatButton) button).setTextColor(!selected ? colorPressed : colorNotPressed);
-            } 
-            if (colorPressedText != 0 || colorNotPressedText != 0) {
-              ((AppCompatButton) button).setTextColor(selected ? colorPressedText : colorNotPressedText);
+            if (getColorPressed() != 0 || getColorNotPressed() != 0) {
+                ((AppCompatButton) button).setTextColor(!selected ? getColorPressed() : getColorNotPressed());
             }
-            if (pressedBackgroundResource != 0 || notPressedBackgroundResource != 0) {
-              button.setBackgroundResource(selected ? pressedBackgroundResource : notPressedBackgroundResource);
+            if (getColorPressedText() != 0 || getColorNotPressedText() != 0) {
+                ((AppCompatButton) button).setTextColor(selected ? getColorPressedText() : getColorNotPressedText());
+            }
+            if (getPressedBackgroundResource() != 0 || getNotPressedBackgroundResource() != 0) {
+                button.setBackgroundResource(selected ? getPressedBackgroundResource() : getNotPressedBackgroundResource());
             }
         }
     }
