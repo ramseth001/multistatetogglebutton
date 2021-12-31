@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'maven-publish'
 }
+apply plugin: 'kotlin-android'
 
 def mVersionCode = 10
 def mVersionName = "0.2.2"
@@ -40,6 +41,8 @@ if (file.isFile()) {
 
 dependencies {
     api 'androidx.appcompat:appcompat:1.4.0'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 task sourcesJar(type: Jar) {
@@ -76,4 +79,7 @@ project.afterEvaluate {
             }
         }
     }
+}
+repositories {
+    mavenCentral()
 }
